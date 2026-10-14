@@ -30,23 +30,22 @@
         </div>
         <div class="brand-text">
           <span class="brand-name">Velo<span class="highlight">URL</span></span>
-          <span class="brand-tagline">Engineered for speed & telemetry</span>
         </div>
       </div>
 
       <!-- Quick Metrics Ticker -->
       <div class="stats-ticker" id="statsTicker">
-        <div class="ticker-item">
+        <div class="ticker-item" title="All shortened links stored in database">
           <span class="ticker-label">Total Links</span>
           <span class="ticker-val" id="totalLinksCount">-</span>
         </div>
         <div class="ticker-divider"></div>
-        <div class="ticker-item">
+        <div class="ticker-item" title="Total clicks recorded across all links">
           <span class="ticker-label">Total Clicks</span>
           <span class="ticker-val highlight" id="totalClicksCount">-</span>
         </div>
         <div class="ticker-divider"></div>
-        <div class="ticker-item">
+        <div class="ticker-item" title="Currently live links (not paused or expired)">
           <span class="ticker-label">Active Links</span>
           <span class="ticker-val text-emerald" id="activeLinksCount">-</span>
         </div>
@@ -56,12 +55,8 @@
     <!-- Main Hero Console -->
     <main class="main-content">
       <section class="hero-section">
-        <div class="hero-badge">
-          <span class="pulsing-dot"></span>
-          <span>Next-Gen URL Shortener & Analytics</span>
-        </div>
-        <h1 class="hero-title">Shorten, Share & <span class="gradient-text">Track Everything.</span></h1>
-        <p class="hero-sub">Transform unwieldy web addresses into blazing-fast, memorable links with custom aliases, automatic QR codes, and click intelligence.</p>
+        <h1 class="hero-title">Shorten, share, and track links</h1>
+        <p class="hero-sub">Generate short links with custom aliases, QR codes, and click analytics.</p>
 
         <!-- Shortener Console Box -->
         <div class="console-card">
@@ -101,7 +96,7 @@
                 <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
-                <span>Advanced Parameters (Custom Alias, Expiration, Title)</span>
+                <span>Customize link (alias, title, expiration)</span>
               </button>
             </div>
 
@@ -203,8 +198,8 @@
       <section class="dashboard-section">
         <div class="dashboard-header">
           <div class="dash-title-group">
-            <h2 class="dash-title">Links Management Hub</h2>
-            <p class="dash-subtitle">Manage your active redirects, track real-time click volume, and analyze audience traffic.</p>
+            <h2 class="dash-title">Shortened Links</h2>
+            <p class="dash-subtitle">View your links, monitor click counts, and download QR codes.</p>
           </div>
 
           <!-- Controls: Search & Filter Tabs -->
@@ -230,7 +225,7 @@
         <div class="table-container">
           <div id="linksLoading" class="loading-state">
             <div class="spinner"></div>
-            <span>Fetching links inventory...</span>
+            <span>Loading links...</span>
           </div>
 
           <div id="linksEmpty" class="empty-state hidden">
@@ -240,8 +235,8 @@
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
               </svg>
             </div>
-            <h3>No links found</h3>
-            <p>Paste a long URL above to generate your first tracked short link.</p>
+            <h3>No links yet</h3>
+            <p>Paste a URL above to create your first short link.</p>
           </div>
 
           <div id="linksList" class="links-list"></div>
@@ -252,10 +247,10 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-left">
-        <span>VeloURL &bull; Ultra-low Latency Link Redirection</span>
+        <span>VeloURL</span>
       </div>
       <div class="footer-right">
-        <span>Protected with Rate Safeguards &bull; SQLite Engine</span>
+        <span>Stored locally with SQLite</span>
       </div>
     </footer>
   </div>
