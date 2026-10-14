@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VeloURL - High-performance modern URL shortener with real-time analytics, QR code generation, custom aliases, and link expiration.">
+  <title>VeloURL | Modern Link Shortening & Real-Time Intelligence</title>
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Ambient background glow layers -->
+  <div class="ambient-glow glow-top"></div>
+  <div class="ambient-glow glow-bottom"></div>
+
+  <div class="app-container">
+    <!-- Navigation / Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Velo<span class="highlight">URL</span></span>
+          <span class="brand-tagline">Engineered for speed & telemetry</span>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Ticker -->
+      <div class="stats-ticker" id="statsTicker">
+        <div class="ticker-item">
+          <span class="ticker-label">Total Links</span>
+          <span class="ticker-val" id="totalLinksCount">-</span>
+        </div>
+        <div class="ticker-divider"></div>
+        <div class="ticker-item">
+          <span class="ticker-label">Total Clicks</span>
+          <span class="ticker-val highlight" id="totalClicksCount">-</span>
+        </div>
+        <div class="ticker-divider"></div>
+        <div class="ticker-item">
+          <span class="ticker-label">Active Links</span>
+          <span class="ticker-val text-emerald" id="activeLinksCount">-</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Hero Console -->
+    <main class="main-content">
+      <section class="hero-section">
+        <div class="hero-badge">
+          <span class="pulsing-dot"></span>
+          <span>Next-Gen URL Shortener & Analytics</span>
+        </div>
+        <h1 class="hero-title">Shorten, Share & <span class="gradient-text">Track Everything.</span></h1>
+        <p class="hero-sub">Transform unwieldy web addresses into blazing-fast, memorable links with custom aliases, automatic QR codes, and click intelligence.</p>
+
+        <!-- Shortener Console Box -->
+        <div class="console-card">
+          <form id="shortenForm" class="shorten-form">
+            <div class="input-primary-row">
+              <div class="input-wrapper main-input-wrapper">
+                <span class="input-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  </svg>
+                </span>
+                <input 
+                  type="text" 
+                  id="longUrlInput" 
+                  class="url-input" 
+                  placeholder="Paste your destination URL (e.g. https://yourdomain.com/long-page)..." 
+                  required 
+                  autocomplete="off"
+                />
+              </div>
+              <button type="submit" id="submitBtn" class="btn-primary">
+                <span class="btn-text">Shorten URL</span>
+                <span class="btn-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+              </button>
+            </div>
+
+            <!-- Expandable Options Trigger -->
+            <div class="options-toggle-row">
+              <button type="button" id="toggleOptionsBtn" class="toggle-options-btn">
+                <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                <span>Advanced Parameters (Custom Alias, Expiration, Title)</span>
+              </button>
+            </div>
+
+            <!-- Advanced Options Panel -->
+            <div id="advancedOptionsPanel" class="advanced-panel hidden">
+              <div class="options-grid">
+                <!-- Custom Alias -->
+                <div class="option-group">
+                  <label for="customAliasInput" class="option-label">
+                    <span>Custom Slug / Alias</span>
+                    <span id="aliasStatus" class="alias-status">Optional</span>
+                  </label>
+                  <div class="input-with-prefix">
+                    <span class="prefix-badge" id="hostPrefix">/</span>
+                    <input 
+                      type="text" 
+                      id="customAliasInput" 
+                      placeholder="e.g. launch-2026" 
+                      maxlength="30"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+
+                <!-- Link Title/Tag -->
+                <div class="option-group">
+                  <label for="linkTitleInput" class="option-label">Campaign / Link Title</label>
+                  <input 
+                    type="text" 
+                    id="linkTitleInput" 
+                    placeholder="e.g. Product Hunt Launch" 
+                    maxlength="60"
+                  />
+                </div>
+
+                <!-- Expiration Select -->
+                <div class="option-group">
+                  <label for="expirationSelect" class="option-label">Link Expiration (TTL)</label>
+                  <select id="expirationSelect">
+                    <option value="">Never Expire</option>
+                    <option value="1">1 Hour</option>
+                    <option value="24">24 Hours</option>
+                    <option value="168">7 Days</option>
+                    <option value="720">30 Days</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Result Success Banner -->
+          <div id="resultBanner" class="result-banner hidden">
+            <div class="result-header">
+              <div class="result-tag">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Link Shortened Successfully!
+              </div>
+              <span id="resultMeta" class="result-meta"></span>
+            </div>
+
+            <div class="result-body">
+              <div class="short-link-display">
+                <input type="text" id="resultShortUrl" readonly />
+              </div>
+              <div class="result-actions">
+                <button type="button" id="copyResultBtn" class="action-btn copy-btn" title="Copy to clipboard">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copy</span>
+                </button>
+                <a id="visitResultBtn" href="#" target="_blank" rel="noopener" class="action-btn visit-btn" title="Open destination">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  <span>Open</span>
+                </a>
+                <button type="button" id="qrResultBtn" class="action-btn qr-btn" title="View QR Code">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                  </svg>
+                  <span>QR Code</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dashboard Section: Links Hub -->
+      <section class="dashboard-section">
+        <div class="dashboard-header">
+          <div class="dash-title-group">
+            <h2 class="dash-title">Links Management Hub</h2>
+            <p class="dash-subtitle">Manage your active redirects, track real-time click volume, and analyze audience traffic.</p>
+          </div>
+
+          <!-- Controls: Search & Filter Tabs -->
+          <div class="dash-controls">
+            <div class="search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="searchLinksInput" placeholder="Filter by slug, title or URL..." />
+            </div>
+
+            <div class="filter-tabs">
+              <button class="filter-tab active" data-filter="all">All</button>
+              <button class="filter-tab" data-filter="active">Active</button>
+              <button class="filter-tab" data-filter="expired">Expired</button>
+              <button class="filter-tab" data-filter="paused">Paused</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Links Table / Cards Container -->
+        <div class="table-container">
+          <div id="linksLoading" class="loading-state">
+            <div class="spinner"></div>
+            <span>Fetching links inventory...</span>
+          </div>
+
+          <div id="linksEmpty" class="empty-state hidden">
+            <div class="empty-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+            </div>
+            <h3>No links found</h3>
+            <p>Paste a long URL above to generate your first tracked short link.</p>
+          </div>
+
+          <div id="linksList" class="links-list"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-left">
+        <span>VeloURL &bull; Ultra-low Latency Link Redirection</span>
+      </div>
+      <div class="footer-right">
+        <span>Protected with Rate Safeguards &bull; SQLite Engine</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- QR Code Modal -->
+  <div id="qrModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">QR Code</h3>
+        <button type="button" class="modal-close-btn" data-close="qrModal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="qr-preview-wrapper" id="qrContainer">
+          <img id="qrImage" src="" alt="QR Code" />
+        </div>
+        <p class="qr-target-text" id="qrTargetUrl"></p>
+        <div class="modal-actions">
+          <a id="downloadQrBtn" href="#" download="velourl-qr.png" class="btn-primary full-width">
+            Download High-Res PNG
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Modal / Drawer -->
+  <div id="analyticsModal" class="modal-backdrop hidden">
+    <div class="modal-card analytics-card">
+      <div class="modal-header">
+        <div>
+          <span class="badge-mini" id="analyticsStatusBadge">Active</span>
+          <h3 class="modal-title" id="analyticsTitle">Link Analytics</h3>
+          <p class="modal-subtitle" id="analyticsShortUrl"></p>
+        </div>
+        <button type="button" class="modal-close-btn" data-close="analyticsModal">&times;</button>
+      </div>
+      
+      <div class="modal-body analytics-body">
+        <!-- Quick stats row -->
+        <div class="analytics-metrics-grid">
+          <div class="metric-card">
+            <span class="metric-title">Total Visits</span>
+            <span class="metric-val" id="analyticsTotalClicks">0</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-title">Created On</span>
+            <span class="metric-val text-sm" id="analyticsCreatedAt">-</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-title">Destination</span>
+            <span class="metric-val text-sm text-truncate" id="analyticsOriginalUrl">-</span>
+          </div>
+        </div>
+
+        <!-- Daily Clicks Bar Chart -->
+        <div class="chart-container">
+          <h4 class="chart-title">Visits Over Time</h4>
+          <div class="bar-chart" id="dailyClicksChart"></div>
+        </div>
+
+        <!-- Device & Referrer Breakdown Grid -->
+        <div class="breakdown-grid">
+          <!-- Device Type -->
+          <div class="breakdown-card">
+            <h4 class="breakdown-heading">Devices</h4>
+            <div id="devicesBreakdownList" class="breakdown-list"></div>
+          </div>
+
+          <!-- Browsers -->
+          <div class="breakdown-card">
+            <h4 class="breakdown-heading">Browsers</h4>
+            <div id="browsersBreakdownList" class="breakdown-list"></div>
+          </div>
+
+          <!-- Platforms / OS -->
+          <div class="breakdown-card">
+            <h4 class="breakdown-heading">Operating Systems</h4>
+            <div id="osBreakdownList" class="breakdown-list"></div>
+          </div>
+
+          <!-- Top Referrers -->
+          <div class="breakdown-card">
+            <h4 class="breakdown-heading">Top Referrers</h4>
+            <div id="referrersBreakdownList" class="breakdown-list"></div>
+          </div>
+        </div>
+
+        <!-- Recent Click Stream Table -->
+        <div class="recent-stream-section">
+          <h4 class="chart-title">Recent Click Stream</h4>
+          <div class="stream-table-wrap">
+            <table class="stream-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Device / OS</th>
+                  <th>Browser</th>
+                  <th>Referrer</th>
+                  <th>IP</th>
+                </tr>
+              </thead>
+              <tbody id="clickStreamBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
