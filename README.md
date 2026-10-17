@@ -30,7 +30,7 @@
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) v22+ (for native `node:sqlite` support)
-- Git
+- Git 
 
 ### Installation
 ```bash
